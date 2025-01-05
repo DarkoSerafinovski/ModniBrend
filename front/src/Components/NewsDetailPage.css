@@ -1,0 +1,70 @@
+/* Osnovni stilovi za stranicu detalja vesti */
+.news-detail-page {
+    padding: 40px 20px;
+    background-color: #fff;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+  }
+  
+  .news-detail h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .news-date {
+    font-size: 1.1rem;
+    color: #777;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .news-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+  
+  .news-content {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: #555;
+    text-align: justify;
+  }
+  
+  .back-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    width: 200px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    cursor: pointer;
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .back-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  @media (max-width: 768px) {
+    .news-detail h1 {
+      font-size: 2rem;
+    }
+  
+    .news-content {
+      font-size: 1.1rem;
+    }
+  
+    .back-btn {
+      font-size: 0.9rem;
+    }
+  }
+  

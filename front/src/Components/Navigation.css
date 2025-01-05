@@ -1,0 +1,61 @@
+/* Navigation.css */
+.navigation {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navigation ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center; /* Poravnava elemente vertikalno */
+  gap: 20px; /* Razmak između elemenata */
+}
+
+.navigation li {
+  display: flex;
+}
+
+.navigation a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.navigation a:hover {
+  color: #0056b3;
+}
+
+.logout-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.logout-btn:hover {
+  background-color: #ff1a1a;
+}
+
+/* Dodatak za osiguranje da su svi elementi centrirani */
+.navigation ul {
+  justify-content: space-between; /* Raspoređuje elemente sa jednakim razmakom */
+}
+.cart-icon {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.cart-icon:hover {
+  color: #007bff;
+}

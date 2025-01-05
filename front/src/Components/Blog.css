@@ -1,0 +1,110 @@
+/* Osnovni stilovi za ceo blog */
+.blog {
+    padding: 40px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+  .blog h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #222;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .blog p {
+    font-size: 1.25rem;
+    margin-bottom: 40px;
+    color: #555;
+    line-height: 1.6;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  /* Stilovi za mrežu blog kartica */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+  }
+  
+  .blog-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .blog-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+  }
+  
+  .blog-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .blog-card h2 {
+    margin: 20px 15px 10px;
+    font-size: 1.8rem;
+    color: #0056b3;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .blog-card p {
+    font-size: 1rem;
+    color: #666;
+    margin: 0 15px 20px;
+    line-height: 1.5;
+  }
+  
+  .blog-card button {
+    display: inline-block;
+    margin: 0 15px 20px;
+    padding: 10px 20px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .blog-card button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  /* Stilovi za mobilne uređaje */
+  @media (max-width: 768px) {
+    .blog {
+      padding: 30px 15px;
+    }
+  
+    .blog h1 {
+      font-size: 2.5rem;
+    }
+  
+    .blog p {
+      font-size: 1.1rem;
+    }
+  
+    .blog-card h2 {
+      font-size: 1.5rem;
+    }
+  
+    .blog-card p {
+      font-size: 0.9rem;
+    }
+  
+    .blog-card button {
+      font-size: 0.9rem;
+    }
+  }
+  

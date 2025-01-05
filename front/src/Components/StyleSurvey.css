@@ -1,0 +1,103 @@
+/* StyleSurvey.css */
+.style-survey {
+  width: 80%;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.toggle-list {
+  display: flex;
+  justify-content: space-evenly; /* Poravnanje dugmadi u redu, sa jednakim razmakom između */
+  margin-bottom: 20px;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center; /* Poravnanje dugmeta i naziva u istom redu */
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  margin-right: 15px; /* Razmak između dugmadi */
+}
+
+.toggle-label input[type="checkbox"] {
+  display: none; /* Sakrijemo osnovni checkbox */
+}
+
+.toggle {
+  position: relative;
+  width: 50px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 30px;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.toggle-label input[type="checkbox"]:checked + .toggle {
+  background-color: #0056b3;
+}
+
+.toggle-label input[type="checkbox"]:checked + .toggle::after {
+  transform: translateX(20px);
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 12px;
+  font-size: 16px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #003d80;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
