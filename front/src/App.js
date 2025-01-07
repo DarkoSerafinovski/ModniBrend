@@ -13,6 +13,7 @@ import AddNewsPage from './Components/AddNewsPage';
 import AddCategoryPage from './Components/AddCategoryPage';
 import OrdersPage from './Components/OrdersPage';
 import AddStylePage from './Components/AddStylePage';
+import AddProductPage from './Components/AddProductPage';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/dodaj-kategoriju" element={<AddCategoryPage />} />  
           <Route path="/porudzbine" element={<OrdersPage />} />  
           <Route path="/dodaj-stil" element={<AddStylePage />} />  
+          <Route path="/dodaj-proizvod" element={<AddProductPage />} />  
         </Routes>
       </div>
     </Router>

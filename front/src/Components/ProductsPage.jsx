@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"; // Importujemo useParams
+import { useParams, useNavigate } from "react-router-dom"; // Dodali smo useNavigate
 import "./ProductsPage.css";
 import Navigation from "./Navigation";
 
 const ProductsPage = () => {
-  const { type } = useParams(); // Koristimo useParams za preuzimanje parametra "type"
+  const { type } = useParams();
+  const navigate = useNavigate(); // Koristimo useNavigate za navigaciju
   const [products, setProducts] = useState([]);
   const [selectedStyle, setSelectedStyle] = useState("");
   console.log("Trenutni tip:", type);
@@ -17,12 +18,10 @@ const ProductsPage = () => {
     { id: 4, name: "Duks 1", image: "/images/duks1.jpg", price: 2000, style: "Sportski", category: "duksevi" },
     { id: 5, name: "Duks 2", image: "/images/duks2.jpg", price: 2200, style: "Old Money", category: "duksevi" },
   ];
-  
 
   const styles = ["Sportski", "Old Money", "Baggie"];
 
   useEffect(() => {
-    // Filtriramo proizvode prema tipu odeće
     const filteredProducts = allProducts.filter(
       (product) => product.category.toLowerCase().includes(type)
     );
@@ -37,39 +36,56 @@ const ProductsPage = () => {
     ? products.filter((product) => product.style === selectedStyle)
     : products;
 
-  return (
-    <div>
-      <Navigation />
-      <div className="products-page">
-        <aside className="sidebar">
-          <h3>Filtriraj po stilu</h3>
-          <ul>
-            {styles.map((style, index) => (
-              <li
-                key={index}
-                onClick={() => handleStyleFilter(style)}
-                className={selectedStyle === style ? "active" : ""}
-              >
-                {style}
-              </li>
-            ))}
-          </ul>
-        </aside>
-        <div className="products-grid">
-          {filteredProducts.map((product) => (
-            <div className="product-card" key={product.id}>
-              <img src={product.image} alt={product.name} className="product-image" />
-              <div className="product-info">
-                <h4>{product.name}</h4>
-                <p>{product.price} RSD</p>
-                <button className="add-to-cart-btn">Dodaj u korpu</button>
-              </div>
+    return (
+      <div>
+        <Navigation />
+        <div className="products-page">
+          <div className="left-column">
+            <button
+              className="add-product-btn"
+              onClick={() => navigate("/dodaj-proizvod")}
+            >
+              Dodaj Novi Proizvod
+            </button>
+            <aside className="sidebar">
+              <h3>Filtriraj po stilu</h3>
+              <ul>
+                {styles.map((style, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleStyleFilter(style)}
+                    className={selectedStyle === style ? "active" : ""}
+                  >
+                    {style}
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          </div>
+          <div className="right-column">
+            <div className="header">
+              <h1>Proizvodi - {type}</h1>
             </div>
-          ))}
+            <div className="products-grid">
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map((product) => (
+                  <div className="product-card" key={product.id}>
+                    <img src={product.image} alt={product.name} className="product-image" />
+                    <div className="product-info">
+                      <h4>{product.name}</h4>
+                      <p>{product.price} RSD</p>
+                      <button className="add-to-cart-btn">Dodaj u korpu</button>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="no-products">Nema proizvoda za prikaz.</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
-
+    );
+    
+  }    
 export default ProductsPage;
