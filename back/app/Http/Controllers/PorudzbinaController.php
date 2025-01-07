@@ -7,6 +7,8 @@ use App\Models\Porudzbina;
 use App\Models\StavkaPorudzbine;
 use App\Models\Korpa;
 use App\Http\Resources\PorudzbinaResource;
+use App\Mail\PorudzbinaDetalji;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 
 class PorudzbinaController extends Controller
@@ -76,19 +78,15 @@ class PorudzbinaController extends Controller
 
             $ukupnaCena=0.0;
             foreach ($korpaStavke as $korpaStavka) {
-                
                 StavkaPorudzbine::create([
                     'porudzbina_id'=>$porudzbina->id,
-                    'proizvod_id' => $korpaStavka->proizvod->id,
-                    'kolicina' => $korpaStavka->kolicina, 
-                    'cena' => $korpaStavka->proizvod->cena, 
-                    'korisnik_id' => $korisnikId, 
+                    'proizvod_id' => $korpaStavka->proizvod_id,
+                    'kolicina' => $korpaStavka->kolicina,
+                    'cena' => $korpaStavka->proizvod->cena,
                 ]);
                 $ukupnaCena=$ukupnaCena + $korpaStavka->kolicina*$korpaStavka->proizvod->cena;
                 
             }
-
-
 
             foreach ($korpaStavke as $korpaStavka) {
 
@@ -97,6 +95,7 @@ class PorudzbinaController extends Controller
             $porudzbina->ukupna_cena=$ukupnaCena;
             $porudzbina->save();
            
+            Mail::to($porudzbina->korisnik->email)->send(new PorudzbinaDetalji($porudzbina));
             return response()->json([
                 'message' => 'Porudzbina uspešno sacuvana!',
                 'data' => new PorudzbinaResource($porudzbina),
