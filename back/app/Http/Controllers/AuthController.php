@@ -18,7 +18,7 @@ class AuthController extends Controller
                 'username' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8',
-                'role' => 'required|string|in:Bloger,Korisnik',
+                'role' => 'required|string|in:Korisnik',
                 'stilovi' => 'required|array',
                 'stilovi.*.id' => 'exists:stilovi,id',
             ]);

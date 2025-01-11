@@ -31,13 +31,14 @@ class KategorijaController extends Controller
     try {
         $validated = $request->validate([
             'naziv' => 'required|string|max:255|unique:kategorije,naziv',
-            
+            'slika' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
         ]);
 
         
        
             $kategorija = Kategorija::create([
                 'naziv' => $validated['naziv'], 
+                'slika'=>$this->uploadImage($request->file('slika'), $validated['naziv']),
             ]);
 
           
@@ -52,5 +53,29 @@ class KategorijaController extends Controller
             ], 500); 
         }
     }
+
+
+    
+    private function uploadImage($file, $naziv)
+{
+    
+    $sanitizedNaziv = preg_replace('/[^a-zA-Z0-9_-]/', '_', $naziv);
+    $extension = $file->getClientOriginalExtension();
+    $filename = $sanitizedNaziv . '.' . $extension;
+
+   
+    $path = 'app/' . $sanitizedNaziv;
+
+    
+    if (!Storage::exists($path)) {
+        Storage::makeDirectory($path);
+    }
+
+    $pathFile = $file->storeAs($path, $filename,'public');
+
+    
+    return Storage::url($pathFile);
+}
+
 
 }

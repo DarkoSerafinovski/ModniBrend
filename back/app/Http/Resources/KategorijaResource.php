@@ -17,6 +17,7 @@ class KategorijaResource extends JsonResource
         return [
             'id' => $this->id,
             'naziv' => $this->naziv,
+            'slika'=>asset($this->slika),
         ];
     }
 }

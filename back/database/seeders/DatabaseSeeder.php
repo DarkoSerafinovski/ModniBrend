@@ -19,8 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         $stilovi = Stil::factory()->count(10)->create();
         $kategorije = Kategorija::factory()->count(5)->create();
-        // $korisnici = User::factory(12)->hasAttached($stilovi->random(3),'stilovi')->create();
-        // $proizvodi = Proizvod::factory(20)->hasAttached($stilovi->random(2),'stilovi')->create();
+        
         $korisnici=User::factory()->count(20)->create();
         foreach ($korisnici as $korisnik) {
             $korisnik->stilovi()->attach($stilovi->random(3));  

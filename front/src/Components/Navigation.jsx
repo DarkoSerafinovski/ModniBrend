@@ -4,7 +4,7 @@ import CartPopup from './CartPopup'; // Uvozimo CartPopup komponentu
 import './Navigation.css';
 
 const Navigation = () => {
-  const [userRole, setUserRole] = useState('Shop Manager'); // Podrazumevana uloga
+  const [userRole, setUserRole] = useState('Bloger'); // Podrazumevana uloga
   const [navItems, setNavItems] = useState([]);
   const [cartVisible, setCartVisible] = useState(false); // State za prikaz korpe
   const [cartItems, setCartItems] = useState([

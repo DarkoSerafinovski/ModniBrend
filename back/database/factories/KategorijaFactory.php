@@ -18,6 +18,7 @@ class KategorijaFactory extends Factory
     {
         return [
             'naziv' => $this->faker->unique()->word,
+            'slika'=>'images/' . $this->faker->word . '.jpg',
         ];
     }
 }

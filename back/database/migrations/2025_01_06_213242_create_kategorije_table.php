@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('kategorije', function (Blueprint $table) {
             $table->id();
             $table->string('naziv')->unique(); 
+            $table->string('slika'); 
             $table->timestamps();
         });
     }
