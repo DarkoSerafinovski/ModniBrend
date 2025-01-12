@@ -28,7 +28,7 @@ const StyleSurvey = () => {
       const data = { ...formData, selectedStyles };
       console.log('Korisnik registrovan:', data); // Ovde šaljemo podatke na server ili čuvamo
       alert('Registracija uspešna!');
-      navigate('/welcome'); // Prebacujemo korisnika na neku stranicu
+      navigate('/'); // Prebacujemo korisnika na neku stranicu
     } else {
       setErrorMessage('Molimo izaberite tačno 3 stila.');
     }

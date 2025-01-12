@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import CartPopup from './CartPopup'; // Uvozimo CartPopup komponentu
+import CartPopup from './CartPopup';
 import './Navigation.css';
 
 const Navigation = () => {
-  const [userRole, setUserRole] = useState('Shop Manager'); // Podrazumevana uloga
+  const [userRole, setUserRole] = useState('Bloger'); // Definišemo ulogu, može biti: 'Korisnik', 'Bloger', 'Shop Manager'
   const [navItems, setNavItems] = useState([]);
-  const [cartVisible, setCartVisible] = useState(false); // State za prikaz korpe
-  const [cartItems, setCartItems] = useState([
-    // Simulirani proizvodi u korpi
-    { id: 1, name: 'Majica 1', price: 1500, image: '/images/majica1.jpg' },
-    { id: 2, name: 'Duks 1', price: 2000, image: '/images/duks1.jpg' },
-  ]);
+  const navigate = useNavigate();
+  
 
-  const navigate = useNavigate(); // Hook za navigaciju
+  // Funkcija za odjavu korisnika
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate('/');
+  };
 
+  
+
+  // Promena navigacije zavisno od korisničke uloge
   useEffect(() => {
     if (userRole === 'Korisnik') {
       setNavItems([
@@ -39,15 +42,6 @@ const Navigation = () => {
     }
   }, [userRole]);
 
-  const handleLogout = () => {
-    sessionStorage.clear(); // Brišemo sve podatke iz sessionStorage
-    navigate('/login'); // Preusmeravamo korisnika na login stranicu
-  };
-
-  const toggleCart = () => {
-    setCartVisible(!cartVisible);
-  };
-
   return (
     <nav className="navigation">
       <ul>
@@ -56,23 +50,13 @@ const Navigation = () => {
             <Link to={item.path}>{item.name}</Link>
           </li>
         ))}
-        <li>
-          <button className="cart-icon" onClick={toggleCart}>
-            🛒
-          </button>
-        </li>
+        
         <li>
           <button className="logout-btn" onClick={handleLogout}>
             Logout
           </button>
         </li>
       </ul>
-      {cartVisible && (
-        <CartPopup
-          items={cartItems}
-          onClose={toggleCart} // Zatvaranje popupa
-        />
-      )}
     </nav>
   );
 };

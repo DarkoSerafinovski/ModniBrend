@@ -72,4 +72,41 @@
   .status-btn:hover {
     background-color: #0056b3;
   }
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    color: #333;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .pagination button:hover {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .pagination button.active {
+    background-color: #4caf50;
+    color: white;
+    cursor: default;
+    border-color: #4caf50;
+  }
+  
+  .pagination button.disabled {
+    background-color: #f1f1f1;
+    color: #aaa;
+    cursor: not-allowed;
+    border-color: #ddd;
+  }
+  
   
