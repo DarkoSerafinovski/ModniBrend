@@ -4,7 +4,7 @@ import CartPopup from './CartPopup';
 import './Navigation.css';
 
 const Navigation = () => {
-  const [userRole, setUserRole] = useState('Bloger'); // Definišemo ulogu, može biti: 'Korisnik', 'Bloger', 'Shop Manager'
+  const [userRole, setUserRole] = useState('Shop Manager'); // Podrazumevana uloga
   const [navItems, setNavItems] = useState([]);
   const navigate = useNavigate();
   
