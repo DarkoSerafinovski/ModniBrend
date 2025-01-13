@@ -9,8 +9,8 @@ const ProductsPage = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [selectedStyle, setSelectedStyle] = useState("");
-  const [cartItems, setCartItems] = useState([]); // Dodato stanje za korpu
-  const [isCartOpen, setIsCartOpen] = useState(false); // Dodato stanje za prikaz korpe
+  const [cartItems, setCartItems] = useState([]); // Stanje za korpu
+  const [isCartOpen, setIsCartOpen] = useState(false); // Stanje za prikaz korpe
 
   const allProducts = [
     { id: 1, name: "Majica 1", image: "/images/majica1.jpg", price: 1500, style: "Sportski", category: "majice" },
@@ -45,44 +45,26 @@ const ProductsPage = () => {
     : products;
 
     const addToCart = (product) => {
-      // Proveri da li proizvod već postoji u korpi
-      const existingProductIndex = cartItems.findIndex(item => item.id === product.id);
+      // Preuzimanje trenutnih proizvoda iz localStorage
+      const currentCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     
-      if (existingProductIndex > -1) {
-        // Ako proizvod već postoji, povećaj količinu
-        const updatedCartItems = [...cartItems];
-        updatedCartItems[existingProductIndex].quantity += 1;
-        setCartItems(updatedCartItems);
-        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems)); // Ažuriraj localStorage
-      } else {
-        // Ako proizvod ne postoji, dodaj ga u korpu sa početnom količinom 1
-        const updatedCartItems = [...cartItems, { ...product, quantity: 1 }];
-        setCartItems(updatedCartItems);
-        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems)); // Ažuriraj localStorage
-      }
+      // Dodavanje novog proizvoda
+      const updatedCartItems = [...currentCartItems, { ...product, quantity: 1 }];
+    
+      // Ažuriranje localStorage i stanja
+      setCartItems(updatedCartItems);
+      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+      
+    
+      // Otvaranje prikaza korpe
       setIsCartOpen(true);
     };
-    
-
-    
-
-    const removeFromCart = (productId) => {
-      // Pronađi proizvod u korpi prema ID-u
-      const updatedCartItems = cartItems.filter(item => item.id !== productId);
-      
-      // Ako je samo količina smanjena, onda samo smanji količinu proizvoda
-      if (updatedCartItems.length !== cartItems.length) {
-        setCartItems(updatedCartItems);
-        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems)); // Ažuriraj localStorage
-      }
-    };
-    
     
 
   const handleCheckout = () => {
     alert("Vaša kupovina je obavljena, informacije o porudžbini su poslate na email.");
     setCartItems([]); // Isprazni korpu
-    localStorage.setItem("cartItems", JSON.stringify([])); // Isprazni i localStorage
+    localStorage.setItem("cartItems", JSON.stringify([])); // Isprazni localStorage
     setIsCartOpen(false); // Zatvori korpu
   };
 
@@ -140,7 +122,6 @@ const ProductsPage = () => {
         <CartPopup
           items={cartItems}
           onClose={() => setIsCartOpen(false)}
-          onRemove={removeFromCart}
           onCheckout={handleCheckout}
         />
       )}

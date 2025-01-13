@@ -6,16 +6,14 @@ import './Navigation.css';
 const Navigation = () => {
   const [userRole, setUserRole] = useState('Shop Manager'); // Podrazumevana uloga
   const [navItems, setNavItems] = useState([]);
+  const [isCartVisible, setIsCartVisible] = useState(false); // Kontrola vidljivosti korpe
   const navigate = useNavigate();
-  
 
   // Funkcija za odjavu korisnika
   const handleLogout = () => {
     sessionStorage.clear();
     navigate('/');
   };
-
-  
 
   // Promena navigacije zavisno od korisničke uloge
   useEffect(() => {
@@ -50,13 +48,24 @@ const Navigation = () => {
             <Link to={item.path}>{item.name}</Link>
           </li>
         ))}
-        
         <li>
           <button className="logout-btn" onClick={handleLogout}>
             Logout
           </button>
         </li>
+        <li>
+          <button
+            className="cart-icon-btn"
+            onClick={() => setIsCartVisible(true)}
+          >
+            🛒
+          </button>
+        </li>
       </ul>
+      <CartPopup
+        visible={isCartVisible}
+        onClose={() => setIsCartVisible(false)}
+      />
     </nav>
   );
 };
