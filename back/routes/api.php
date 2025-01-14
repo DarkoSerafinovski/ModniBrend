@@ -9,9 +9,11 @@ use App\Http\Controllers\ClanakController;
 use App\Http\Controllers\ProizvodController;
 use App\Http\Controllers\KorpaController;
 use App\Http\Controllers\PorudzbinaController;
+use App\Http\Controllers\UserController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/stilovi', [StilController::class, 'index']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -20,7 +22,7 @@ Route::post('/kategorije',[KategorijaController::class,'store']);
 Route::get('/kategorije', [KategorijaController::class, 'index']);
 
 Route::post('/stilovi',[StilController::class,'store']);
-Route::get('/stilovi', [StilController::class, 'index']);
+
 
 Route::post('clanci',[ClanakController::class,'store']);
 Route::put('clanci/{id}',[ClanakController::class,'update']);
@@ -40,5 +42,8 @@ Route::get('korpa/prikaz',[KorpaController::class,'prikazKorpe']);
 Route::get('porudzbine',[PorudzbinaController::class,'index']);
 Route::post('porudzbine',[PorudzbinaController::class,'store']);
 Route::put('porudzbine/{id}',[PorudzbinaController::class,'update']);
+
+
+Route::get('preporuke',[UserController::class,'mojePreporuke']);
 });
 

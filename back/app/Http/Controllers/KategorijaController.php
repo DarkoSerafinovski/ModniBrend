@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Kategorija;
 use App\Http\Resources\KategorijaResource;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class KategorijaController extends Controller
 {
@@ -29,6 +31,14 @@ class KategorijaController extends Controller
     public function store(Request $request)
     {
     try {
+
+
+        $user = Auth::user();
+        if($user->role!='Shop Manager'){
+            return response()->json([
+                'error' => 'Nemate dozvolu za kreiranje kategorije.',
+            ], 403); 
+        }
         $validated = $request->validate([
             'naziv' => 'required|string|max:255|unique:kategorije,naziv',
             'slika' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 

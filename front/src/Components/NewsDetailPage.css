@@ -22,17 +22,18 @@
   }
   
   .news-image {
-    width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-    border-radius: 10px;
+      width: 800px;           /* Fiksna širina slike */
+      height: 300px;          /* Fiksna visina slike */
+      object-fit: contain;    /* Slika se prilagođava u okvir bez izrezivanja */
+      object-position: center; /* Centriranje slike unutar okvira */
+    
   }
   
   .news-content {
     font-size: 1.25rem;
     line-height: 1.8;
     color: #555;
-    text-align: justify;
+    text-align: center;
   }
   
   .back-btn {

@@ -1,66 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Blog.css';
 import { useNavigate } from 'react-router-dom';
 import Navigation from './Navigation';
-
-const blogPosts = [
-  {
-    id: 1,
-    title: 'Modni trendovi za ovu sezonu',
-    description: 'Otkrijte najnovije modne trendove koji će obeležiti ovu sezonu.',
-    image: '/images/blog1.jpg',
-  },
-  {
-    id: 2,
-    title: 'Saveti za stilizovanje sportske garderobe',
-    description: 'Kako kombinovati sportsku odeću za svakodnevni elegantan izgled.',
-    image: '/images/blog2.jpg',
-  },
-  {
-    id: 3,
-    title: 'Minimalistički pristup modi',
-    description: 'Zašto je minimalizam u modi sve popularniji i kako ga primeniti.',
-    image: '/images/blog3.jpg',
-  },
-  {
-    id: 4,
-    title: 'Kako odabrati idealne čizme za zimu',
-    description: 'Pronađite savršene čizme koje kombinuju stil i udobnost.',
-    image: '/images/blog4.jpg',
-  },
-  {
-    id: 5,
-    title: 'Osnovni komadi za garderobu',
-    description: 'Koji komadi su must-have u svakoj garderobi.',
-    image: '/images/blog5.jpg',
-  },
-];
+import axios from 'axios';
 
 const Blog = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 3; // Broj postova po stranici
-  const totalPages = Math.ceil(blogPosts.length / postsPerPage);
+  const [posts, setPosts] = useState([]); // For storing posts
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0
+  });
+  const postsPerPage = 3; // Number of posts per page
   const navigate = useNavigate();
 
-  // Prikaz postova za trenutnu stranicu
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
+  // Load data from server when component mounts
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/clanci', {
+          params: {
+            page: pagination.currentPage,
+            per_page: postsPerPage, // Send the number of posts per page
+          },
+          headers: {
+            'Authorization': 'Bearer ' + sessionStorage.getItem('auth_token'),
+          }
+        });
 
-  const handleReadMore = (id) => {
-    navigate(`/blog/${id}`); // Navigacija na stranicu detalja vesti
-  };
+        setPosts(response.data.data); // Save posts to state
 
+        // Update pagination info from API response
+        setPagination({
+          currentPage: response.data.meta.current_page,
+          totalPages: response.data.meta.last_page,
+          totalItems: response.data.meta.total,
+        });
+      } catch (error) {
+        console.error('Error loading posts:', error);
+      }
+    };
+
+    fetchPosts();
+  }, [pagination.currentPage]); // Trigger fetch when page changes
+
+  // Handle pagination
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prevPage) => prevPage + 1);
+    if (pagination.currentPage < pagination.totalPages) {
+      setPagination(prev => ({
+        ...prev,
+        currentPage: prev.currentPage + 1,
+      }));
     }
   };
 
   const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
+    if (pagination.currentPage > 1) {
+      setPagination(prev => ({
+        ...prev,
+        currentPage: prev.currentPage - 1,
+      }));
     }
+  };
+
+  // Handle reading more on a post
+  const handleReadMore = (id) => {
+    navigate(`/blog/${id}`); // Navigate to post details
   };
 
   return (
@@ -71,31 +76,36 @@ const Blog = () => {
         <p>Pročitajte najnovije vesti, savete i trendove iz sveta mode i stila.</p>
 
         <div className="blog-grid">
-          {currentPosts.map((post) => (
-            <div key={post.id} className="blog-card">
-              <img src={post.image} alt={post.title} />
-              <h2>{post.title}</h2>
-              <p>{post.description}</p>
-              <button onClick={() => handleReadMore(post.id)}>Detalji</button>
-            </div>
-          ))}
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <div key={post.id} className="blog-card">
+                <img src={post.slika} alt={post.naslov} />
+                <h2>{post.naslov}</h2>
+                <p>Autor: {post.autor.username}</p>
+                <p>Kreiran: {new Date(post.kreiran).toLocaleDateString()}</p>
+                <button onClick={() => handleReadMore(post.id)}>Detalji</button>
+              </div>
+            ))
+          ) : (
+            <p>Nema postova za prikaz.</p>
+          )}
         </div>
 
-        {/* Kontrole za paginaciju */}
+        {/* Pagination Controls */}
         <div className="pagination">
           <button
             onClick={handlePrevPage}
-            disabled={currentPage === 1}
+            disabled={pagination.currentPage === 1}
             className="pagination-button"
           >
             Prethodna
           </button>
           <span className="pagination-info">
-            Stranica {currentPage} od {totalPages}
+            Stranica {pagination.currentPage} od {pagination.totalPages}
           </span>
           <button
             onClick={handleNextPage}
-            disabled={currentPage === totalPages}
+            disabled={pagination.currentPage === pagination.totalPages}
             className="pagination-button"
           >
             Sledeća

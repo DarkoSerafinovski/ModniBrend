@@ -1,52 +1,64 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Dodaj axios za HTTP zahteve
 import './NewsDetailPage.css';
 import Navigation from './Navigation';
 
 const NewsDetailPage = () => {
-  const { newsId } = useParams(); // Preuzimanje ID-a vesti iz URL-a
+  const { newsId } = useParams(); // Preuzimanje ID-a članka iz URL-a
   const navigate = useNavigate();
   
-  // Simulirani podaci o vesti
-  const newsArticles = [
-    {
-      id: 1,
-      title: "Nova kolekcija je stigla!",
-      date: "4. Januar 2025.",
-      image: "/images/vest1.jpg",
-      content: "Ovaj članak govori o dolasku nove kolekcije, sa svim najnovijim trendovima i modelima koji su upravo stigli. Svi proizvodi su pažljivo odabrani da zadovolje ukuse modernih kupaca. Posetite nas i uverite se u kvalitet najnovijih proizvoda.",
-    },
-    {
-      id: 2,
-      title: "Bloger preporučuje najbolje outfite za zimu",
-      date: "2. Januar 2025.",
-      image: "/images/vest2.jpg",
-      content: "Zima je pred nama, a blogeri širom sveta već biraju najbolje outfite za hladne dane. Saznajte šta je trenutno popularno i kako se oblačiti u ovoj sezoni. Ovaj članak nudi praktične savete o tome šta nositi i kako se ugrejati u stilu.",
-    },
-  ];
+  const [article, setArticle] = useState(null); // Stanje za podatke o članku
+  const [loading, setLoading] = useState(true); // Stanje za učitavanje
+  const [error, setError] = useState(null); // Stanje za greške
 
-  // Pronađi vest prema ID-u
-  const article = newsArticles.find((item) => item.id === parseInt(newsId));
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/clanci/${newsId}`, {
+          headers: {
+            'Authorization': 'Bearer ' + sessionStorage.getItem('auth_token'),
+          }
+        });
+        setArticle(response.data.data); 
+        setLoading(false);
+      } catch (err) {
+        setError('Došlo je do greške prilikom učitavanja članka.');
+        setLoading(false);
+      }
+    };
+
+    fetchArticle(); // Poziv funkcije za učitavanje članka
+  }, [newsId]); // Pozivaj efekat svaki put kada se promeni newsId
 
   const handleBack = () => {
     navigate('/blog'); // Vratiti korisnika na listu vesti
   };
 
+  if (loading) {
+    return <div>Učitavanje...</div>; // Prikaz poruke dok se učitava
+  }
+
+  if (error) {
+    return <div>{error}</div>; // Prikaz greške ako dođe do problema sa učitavanjem
+  }
+
   if (!article) {
-    return <div>Vest nije pronađena.</div>;
+    return <div>Članak nije pronađen.</div>; // Ako članku nije moguće pristupiti
   }
 
   return (
     <div>
-        <Navigation/>
+        <Navigation />
         <div className="news-detail-page">
-        <button className="back-btn" onClick={handleBack}>Nazad na blog</button>
-        <div className="news-detail">
-            <h1>{article.title}</h1>
-            <p className="news-date">{article.date}</p>
-            <img src={article.image} alt={article.title} className="news-image" />
-            <p className="news-content">{article.content}</p>
-        </div>
+            <button className="back-btn" onClick={handleBack}>Nazad na blog</button>
+            <div className="news-detail">
+                <h1>{article.naslov}</h1> {/* Prikaz naslova */}
+                <p className="news-date">{new Date(article.kreiran).toLocaleDateString()}</p> {/* Prikaz datuma */}
+                <img src={article.slika} alt={article.naslov} className="news-image" /> {/* Prikaz slike */}
+                <p className="news-content">{article.sadrzaj}</p> {/* Prikaz sadržaja */}
+                <p className="news-author">Autor: {article.autor.username}</p> {/* Prikaz autora */}
+            </div>
         </div>
     </div>
   );

@@ -18,6 +18,7 @@ class ClanakResource extends JsonResource
             'id' => $this->id,
             'naslov' => $this->naslov,
             'sadrzaj' => $this->sadrzaj,
+            'slika'=>asset($this->slika),
             'autor' => new UserResource($this->korisnik),
             'kreiran' => $this->created_at->toDateTimeString(),
             

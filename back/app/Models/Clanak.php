@@ -11,7 +11,7 @@ class Clanak extends Model
     protected $table = 'clanci';
     use HasFactory;
 
-    protected $fillable = ['korisnik_id', 'naslov', 'sadrzaj'];
+    protected $fillable = ['korisnik_id', 'naslov', 'sadrzaj','slika'];
 
     public function korisnik() {
         return $this->belongsTo(User::class,'korisnik_id');

@@ -1,112 +1,126 @@
 .orders-page {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
-  }
-  
-  .page-title {
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .orders-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .orders-table th,
-  .orders-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .orders-table th {
-    background-color: #4caf50;
-    color: white;
-    font-size: 1rem;
-  }
-  
-  .orders-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  .orders-table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .status {
-    font-weight: bold;
-    text-align: center;
-    border-radius: 4px;
-    padding: 5px 10px;
-  }
-  
-  .status.pending {
-    background-color: #ffc107;
-    color: #fff;
-  }
-  
-  .status.completed {
-    background-color: #28a745;
-    color: #fff;
-  }
-  
-  .status-btn {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .status-btn:hover {
-    background-color: #0056b3;
-  }
-  .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .pagination button {
-    margin: 0 5px;
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-    color: #333;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .pagination button:hover {
-    background-color: #4caf50;
-    color: white;
-  }
-  
-  .pagination button.active {
-    background-color: #4caf50;
-    color: white;
-    cursor: default;
-    border-color: #4caf50;
-  }
-  
-  .pagination button.disabled {
-    background-color: #f1f1f1;
-    color: #aaa;
-    cursor: not-allowed;
-    border-color: #ddd;
-  }
-  
-  
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.page-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.orders-table th {
+  background-color: #4caf50;
+  color: white;
+  font-size: 1rem;
+}
+
+/* Redovi sa statusom 'Na čekanju' */
+.orders-table .pending-order {
+  background-color: #fff3cd; /* Žuta pozadina za čekanje */
+}
+
+/* Redovi sa statusom 'Kompletirana' */
+.orders-table .completed-order {
+  background-color: #d4edda; /* Zelena pozadina za kompletirane */
+}
+
+/* Hover efekat koji je sada ispravljen da ne menja boje redova */
+.orders-table tr.completed-order:hover {
+  background-color: #0a6a22; /* Tamnija zelena za 'Kompletiranu' */
+  color:white;
+}
+
+.orders-table tr.pending-order:hover {
+  background-color: #ca9f1d; /* Tamnija žuta za 'Na čekanju' */
+}
+
+/* Status stilizacija */
+.status {
+  font-weight: bold;
+  text-align: center;
+  border-radius: 4px;
+  padding: 5px 10px;
+}
+
+.status.pending {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+.status.completed {
+  background-color: #28a745;
+  color: #fff;
+}
+
+/* Dugmadi za akcije */
+.status-btn {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.status-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Paginacija */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  color: #333;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #4caf50;
+  color: white;
+}
+
+.pagination button.active {
+  background-color: #4caf50;
+  color: white;
+  cursor: default;
+  border-color: #4caf50;
+}
+
+.pagination button.disabled {
+  background-color: #f1f1f1;
+  color: #aaa;
+  cursor: not-allowed;
+  border-color: #ddd;
+}

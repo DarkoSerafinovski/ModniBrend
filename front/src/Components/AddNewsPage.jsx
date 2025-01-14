@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; // Dodajemo axios za slanje zahteva
 import "./AddNewsPage.css";
 import Navigation from "./Navigation";
 
@@ -9,60 +10,77 @@ const AddNewsPage = () => {
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Ovde treba dodati logiku za slanje podataka na backend (ako je potrebno)
+    const formData = new FormData();
+    formData.append("naslov", title);
+    formData.append("sadrzaj", content);
+    formData.append("slika", image);
 
-    // Za sada, samo prikazujemo unos u konzoli
-    console.log("Nova vest:", { title, content, image });
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/clanci", 
+        formData,
+        {
+          headers: {
+            'Authorization': 'Bearer ' + sessionStorage.getItem('auth_token'),
+            "Content-Type": "multipart/form-data", 
+          },
+        }
+      );
 
-    // Preusmeravamo korisnika nakon što je uspešno poslat unos
-    navigate("/blog");
+      console.log("Vest uspešno kreirana:", response.data.data);
+      navigate("/blog"); // Preusmeravamo korisnika na blog nakon uspešnog slanja
+    } catch (error) {
+      console.error("Greška prilikom kreiranja vesti:", error);
+      alert("Došlo je do greške, pokušajte ponovo!");
+    }
   };
 
   return (
     <div>
-        <Navigation/>
+        <Navigation />
         <div className="add-news-page">
-        <h2>Dodaj novu vest</h2>
-        <form onSubmit={handleSubmit} className="add-news-form">
+          <h2>Dodaj novu vest</h2>
+          <form onSubmit={handleSubmit} className="add-news-form">
             <div className="form-group">
-            <label for="title">Naslov</label>
-            <input
+              <label htmlFor="title">Naslov</label>
+              <input
                 type="text"
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
                 placeholder="Unesite naslov vesti"
-            />
+              />
             </div>
 
             <div className="form-group">
-            <label for="content">Sadržaj</label>
-            <textarea
+              <label htmlFor="content">Sadržaj</label>
+              <textarea
                 id="content"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 required
                 placeholder="Unesite sadržaj vesti"
-            ></textarea>
+              ></textarea>
             </div>
 
             <div className="form-group">
-            <label for="image">Slika</label>
-            <input
+              <label htmlFor="image">Slika</label>
+              <input
                 type="file"
                 id="image"
                 onChange={(e) => setImage(e.target.files[0])}
-            />
+                required
+              />
             </div>
 
             <button type="submit" className="submit-btn">
-            Objavi vest
+              Objavi vest
             </button>
-        </form>
+          </form>
         </div>
     </div>
   );

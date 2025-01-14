@@ -150,7 +150,7 @@ class ProizvodController extends Controller
                 if (File::exists($proizvod->putanja_slike)) {
                     File::delete($proizvod->putanja_slike);
                 }
-               $proizvod->putanja_slike =  $this->uploadLogo($request->file('slika'),$validated['naslov']);
+               $proizvod->putanja_slike =  $this->uploadImage($request->file('slika'),$validated['naslov']);
     
             }
 

@@ -17,6 +17,10 @@ const Navigation = () => {
 
   // Promena navigacije zavisno od korisničke uloge
   useEffect(() => {
+    const userRole = sessionStorage.getItem("role");
+    if (userRole) {
+      setUserRole(userRole);
+    }
     if (userRole === 'Korisnik') {
       setNavItems([
         { name: 'Kolekcija', path: '/shop' },

@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Clanak;
 use App\Http\Resources\ClanakResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ClanakController extends Controller
 {
     public function index()
     {
-        $clanci = Clanak::paginate(5); 
+        $clanci = Clanak::paginate(3); 
         return ClanakResource::collection($clanci);
         
     }
@@ -29,7 +31,8 @@ class ClanakController extends Controller
         }
         $validated = $request->validate([
             'naslov' => 'required|string|max:255',
-            'sadrzaj' => 'required|string'
+            'sadrzaj' => 'required|string',
+            'slika' => 'required|image|mimes:jpeg,png,jpg,gif,svg', 
         ]);
 
         
@@ -38,6 +41,7 @@ class ClanakController extends Controller
                 'naslov' => $validated['naslov'], 
                 'sadrzaj'=>$validated['sadrzaj'],
                 'korisnik_id'=>$user->id,
+                'slika'=>$this->uploadImage($request->file('slika'), $validated['naslov']),
             ]);
 
           
@@ -81,12 +85,26 @@ class ClanakController extends Controller
             $validated= $request->validate([
                 'naslov' => 'required|string|max:255',
                 'sadrzaj' => 'required|string',
+                'slika' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg', 
             ]);
     
            
             $clanak = Clanak::findOrFail($id);
             $clanak->naslov =   $validated['naslov'];
             $clanak->sadrzaj =   $validated['sadrzaj'];
+
+            if ($request->hasFile('slika')) {
+                if (File::exists($clanak->slika)) {
+                    File::delete($clanak->slika);
+                }
+               $clanak->slika =  $this->uploadLogo($request->file('slika'),$validated['naslov']);
+    
+            }
+
+            $proizvod->save();
+
+
+
             $clanak->save();
 
             return response()->json([
@@ -104,5 +122,27 @@ class ClanakController extends Controller
       
       
     }
+
+
+    private function uploadImage($file, $naziv)
+{
+    
+    $sanitizedNaziv = preg_replace('/[^a-zA-Z0-9_-]/', '_', $naziv);
+    $extension = $file->getClientOriginalExtension();
+    $filename = $sanitizedNaziv . '.' . $extension;
+
+   
+    $path = 'app/' . $sanitizedNaziv;
+
+    
+    if (!Storage::exists($path)) {
+        Storage::makeDirectory($path);
+    }
+
+    $pathFile = $file->storeAs($path, $filename,'public');
+
+    
+    return Storage::url($pathFile);
+}
 
 }

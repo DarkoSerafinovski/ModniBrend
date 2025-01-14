@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('korisnik_id')->constrained('users')->onDelete('cascade'); 
             $table->string('naslov');
             $table->text('sadrzaj');
+            $table->string('slika');
             $table->timestamps();
         });
     }

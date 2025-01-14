@@ -20,6 +20,7 @@ class ClanakFactory extends Factory
             'korisnik_id' => User::where('role', 'Bloger')->inRandomOrder()->first()->id,
             'naslov' => $this->faker->sentence,
             'sadrzaj' => $this->faker->paragraph,
+            'slika' => 'images/' . $this->faker->word . '.jpg',
             'created_at' => now(),
             'updated_at' => now(),
         ];
