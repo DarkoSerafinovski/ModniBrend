@@ -40,6 +40,7 @@ const Navigation = () => {
         { name: 'Dodaj kategoriju', path: '/dodaj-kategoriju' },
         { name: 'Dodaj stil', path: '/dodaj-stil' },
         { name: 'Porudžbine', path: '/porudzbine' },
+        {name:'Galerija',path:'/galerija'},
       ]);
     }
   }, [userRole]);
