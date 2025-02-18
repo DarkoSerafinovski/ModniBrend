@@ -82,6 +82,13 @@ class ClanakController extends Controller
     {
         try{
 
+            $user = Auth::user();
+            if($user->role!='Bloger'){
+                return response()->json([
+                    'error' => 'Nemate dozvolu za izmenu clanka.',
+                ], 403); 
+            }
+
             $validated= $request->validate([
                 'naslov' => 'required|string|max:255',
                 'sadrzaj' => 'required|string',

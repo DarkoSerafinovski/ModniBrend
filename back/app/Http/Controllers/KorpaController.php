@@ -62,7 +62,7 @@ class KorpaController extends Controller
             $user = Auth::user();
             if($user->role!='Korisnik'){
                 return response()->json([
-                    'error' => 'Nemate dozvolu za dodavanje proizvoda u korpu.',
+                    'error' => 'Nemate dozvolu za izbacivanje proizvoda iz korpe.',
                 ], 403); 
             }
     

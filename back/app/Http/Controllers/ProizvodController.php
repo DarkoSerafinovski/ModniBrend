@@ -124,6 +124,14 @@ class ProizvodController extends Controller
     {
         try{
 
+
+            $user = Auth::user();
+            if($user->role!='Shop Manager'){
+                return response()->json([
+                    'error' => 'Nemate dozvolu za kreiranje proizvoda.',
+                ], 403); 
+            }
+
             $validated = $request->validate([
                 'naziv' => 'required|string|max:255',
                 'opis' => 'required|string',
