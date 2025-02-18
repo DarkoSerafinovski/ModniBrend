@@ -26,7 +26,6 @@ const Navigation = () => {
         { name: 'Kolekcija', path: '/shop' },
         { name: 'Preporuke', path: '/preporuke' },
         { name: 'Blog', path: '/blog' },
-        { name: 'Ebay', path: '/ebay' },
       ]);
     } else if (userRole === 'Bloger') {
       setNavItems([
