@@ -101,8 +101,6 @@ class ClanakController extends Controller
     
             }
 
-            $proizvod->save();
-
 
 
             $clanak->save();
